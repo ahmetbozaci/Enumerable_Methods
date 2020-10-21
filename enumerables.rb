@@ -7,7 +7,7 @@ module Enumerable
         yield i
       end
     else
-      return "#<Enumerator: #{self}:my_each>"
+      to_enum(:my_each)  
     end
   end
 
@@ -18,9 +18,10 @@ module Enumerable
         yield i, self.index(i)
       end
     else
-      return "#<Enumerator: #{self}:my_each_with_index>"
+      to_enum(:my_each_with_index)  
+    end
   end
-  
+
   #my_map
   def my_map(&block)
     if block_given?
@@ -30,8 +31,30 @@ module Enumerable
       end
       return arr
     else
-      return "#<Enumerator: #{self}:my_map>"
+      to_enum(:my_map)  
     end
   end
 
+end
+
+
+#Examples
+
+arr = [32,10,21,4,5]
+
+puts "my_each"
+arr.my_each do |n|
+  n += 1
+  print "#{n}-"
+end
+
+puts "my_each_with_index"
+arr.my_each_with_index do |i,n|
+  print "#{i}:#{n} - "
+end
+
+puts "my_map"
+arr.my_map do |i|
+  i += 1
+  print "#{i} "
 end
