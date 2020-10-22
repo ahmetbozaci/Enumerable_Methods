@@ -39,7 +39,7 @@ module Enumerable
    def my_select()
     if block_given?
       arr = Array.new
-      self.each do |i|
+      self.my_each do |i|
         if yield(i)
           arr << i
         end
@@ -53,9 +53,9 @@ module Enumerable
   #my_any
   def my_any?(arg = nil)
     if block_given?
-      self.each do |i|
+      self.my_each do |i|
         if yield(i)
-          return "true"
+          return true
         end
       end
       false
@@ -80,7 +80,7 @@ module Enumerable
     
     #if class
     elsif arg.class == Class
-      self.each do |i|
+      self.my_each do |i|
         if i.is_a? (arg)
           return true
         end
@@ -89,7 +89,7 @@ module Enumerable
 
     #Regexp
     elsif arg.class == Regexp
-      self.each do |i|
+      self.my_each do |i|
         index = i =~ arg
         if index.class == Integer
           return true
@@ -102,8 +102,8 @@ module Enumerable
 end
 
 
-#Examples
 
+#EXAMPLES
 arr = [32,10,21,4,5]
 
 #my_each
