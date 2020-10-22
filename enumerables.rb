@@ -35,6 +35,55 @@ module Enumerable
     end
   end
 
+  #my_any
+  def my_any?(arg = nil)
+    if block_given?
+      self.each do |i|
+        if yield(i)
+          return "true"
+        end
+      end
+      false
+
+    #if array empty
+    elsif self.length == 0
+      return false
+
+    #if all elements are nil or false  
+    elsif self.length > 0 && arg == nil
+      nil_count = 0
+      for i in self
+        if i == nil || i == false
+          nil_count += 1
+        end
+      end
+      if nil_count == self.length
+        return false
+      else
+        return true
+      end
+    
+    #if class
+    elsif arg.class == Class
+      self.each do |i|
+        if i.is_a? (arg)
+          return true
+        end
+      end
+      false
+
+    #Regexp
+    elsif arg.class == Regexp
+      self.each do |i|
+        index = i =~ arg
+        if index.class == Integer
+          return true
+        end
+      end
+      false
+    end
+  end #def 
+
 end
 
 
@@ -58,3 +107,12 @@ arr.my_map do |i|
   i += 1
   print "#{i} "
 end
+
+
+
+%w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
+%w[ant bear cat].my_any? { |word| word.length >= 6 } #=> false
+%w[ant bear cat].my_any?(/d/)                        #=> false
+["a", "a", "1"].my_any?(String)                     #=> true
+[nil, nil, false].my_any?                             #=> false
+[].my_any?                                           #=> false
