@@ -97,6 +97,45 @@ module Enumerable
       end
       false
     end
+  end #def
+  
+  #my_all
+  def my_all?(arg = nil)
+    if block_given?
+      self.each do |i|
+        unless yield(i)
+          return false
+        end
+      end
+      true
+
+    #if array empty
+    elsif self.length == 0
+      return true
+
+    #if one element is nil or false  
+    elsif self.include?(nil) || self.include?(false)
+      return false
+
+    #if class
+    elsif arg.class == Class
+      self.each do |i|
+        unless i.is_a? (arg)
+          return false
+        end
+      end
+      true
+
+    #Regexp
+    elsif arg.class == Regexp
+      self.each do |i|
+        index = i =~ arg
+        unless index.class == Integer
+          return false
+        end
+      end
+      true
+    end
   end #def 
 
 end
@@ -133,3 +172,11 @@ arr.my_select { |num|  num.even?  }   #=> [32, 10, 4]
 ["a", "a", "1"].my_any?(String)                      #=> true
 [nil, nil, false].my_any?                            #=> false
 [].my_any?                                           #=> false
+
+#my_all
+%w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
+%w[ant bear cat].my_all? { |word| word.length >= 6 } #=> false
+%w[ant bear cat].my_all?(/t/)                        #=> false
+["a", "a", 1].my_all?(String)                        #=> false
+[nil, nil, false].my_all?                            #=> false
+[].my_all?                                           #=> true
