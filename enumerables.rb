@@ -35,6 +35,21 @@ module Enumerable
     end
   end
 
+   #my_select
+   def my_select()
+    if block_given?
+      arr = Array.new
+      self.each do |i|
+        if yield(i)
+          arr << i
+        end
+      end
+      return arr
+    else
+      return to_enum(:my_select)
+    end
+  end
+  
   #my_any
   def my_any?(arg = nil)
     if block_given?
@@ -91,28 +106,30 @@ end
 
 arr = [32,10,21,4,5]
 
-puts "my_each"
+#my_each
 arr.my_each do |n|
   n += 1
   print "#{n}-"
 end
 
-puts "my_each_with_index"
+#my_each_with_index
 arr.my_each_with_index do |i,n|
   print "#{i}:#{n} - "
 end
 
-puts "my_map"
+#my_map
 arr.my_map do |i|
   i += 1
   print "#{i} "
 end
 
+#my_select
+arr.my_select { |num|  num.even?  }   #=> [32, 10, 4]
 
-
+#my_any
 %w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
 %w[ant bear cat].my_any? { |word| word.length >= 6 } #=> false
 %w[ant bear cat].my_any?(/d/)                        #=> false
-["a", "a", "1"].my_any?(String)                     #=> true
-[nil, nil, false].my_any?                             #=> false
+["a", "a", "1"].my_any?(String)                      #=> true
+[nil, nil, false].my_any?                            #=> false
 [].my_any?                                           #=> false
