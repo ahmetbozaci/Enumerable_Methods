@@ -136,6 +136,50 @@ module Enumerable
       end
       true
     end
+  end #def
+
+  #my_none
+  def my_none?(arg = nil)
+    if block_given?
+      self.each do |i|
+        if yield(i)
+          return false
+        end
+      end
+      true
+
+    #if all element is nil or false  or array is empty 
+    elsif self.length >= 0 && arg == nil
+        num = 0
+        self.my_each do |i|
+          if i == nil || i == false
+            num += 1
+          end
+        end
+        unless num == self.length
+          return false
+        end
+        true
+
+    #if class
+    elsif arg.class == Class
+      self.my_each do |i|
+        if i.is_a? (arg)
+          return false
+        end
+      end
+      true
+
+    #Regexp
+    elsif arg.class == Regexp
+      self.my_each do |i|
+        index = i =~ arg
+        if index.class == Integer
+          return false
+        end
+      end
+      true
+    end
   end #def 
 
 end
@@ -180,3 +224,13 @@ arr.my_select { |num|  num.even?  }   #=> [32, 10, 4]
 ["a", "a", 1].my_all?(String)                        #=> false
 [nil, nil, false].my_all?                            #=> false
 [].my_all?                                           #=> true
+
+#my_none
+%w{ant bear cat}.my_none? { |word| word.length == 5 } #=> true
+%w{ant bear cat}.my_none? { |word| word.length >= 4 } #=> false
+%w{ant bear cat}.my_none?(/d/)                        #=> true
+[1, 314, 4.2].my_none?(Float)                         #=> false
+[].my_none?                                           #=> true
+[nil].my_none?                                        #=> true
+[nil, false].my_none?                                 #=> true
+[nil, false, true].my_none?                           #=> false
