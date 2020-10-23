@@ -23,11 +23,11 @@ module Enumerable
   end
 
   #my_map
-  def my_map(&block)
+  def my_map()
     if block_given?
       arr = Array.new
       self.my_each do |i|
-        arr << block.call(i)
+        arr << yield(i)
       end
       return arr
     else
@@ -232,6 +232,9 @@ arr.my_map do |i|
   i += 1
   print "#{i} "
 end
+
+my_proc = Proc.new {|i| i*2}
+arr.my_map(&my_proc)
 
 #my_select
 arr.my_select { |num|  num.even?  }   #=> [32, 10, 4]
