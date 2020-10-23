@@ -180,7 +180,34 @@ module Enumerable
       end
       true
     end
-  end #def 
+  end #def
+  
+  def my_count(arg = nil)
+    if block_given?
+      num = 0
+      self.each do |i|
+        if yield(i)
+          num += 1
+        end
+      end
+      return num
+
+    #no argument given
+    elsif arg == nil
+     self.length
+    
+    #argument given
+    else
+      num = 0 
+      for i in self
+        if i == arg
+          num += 1
+        end 
+      end
+      num 
+    end
+
+  end #def
 
 end
 
@@ -234,3 +261,9 @@ arr.my_select { |num|  num.even?  }   #=> [32, 10, 4]
 [nil].my_none?                  #=> true
 [nil, false].my_none?           #=> true
 [nil, false, true].my_none?     #=> false
+
+#my_count
+ary = [4, 5, 2, 2, 6, 7, 2, 2, 3]
+ary.my_count                  #=> 9
+ary.my_count(2)               #=> 4
+ary.my_count { |x| x%2 == 0 } #=> 3
