@@ -210,27 +210,27 @@ end
 arr.my_select { |num|  num.even?  }   #=> [32, 10, 4]
 
 #my_any
-%w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
-%w[ant bear cat].my_any? { |word| word.length >= 6 } #=> false
-%w[ant bear cat].my_any?(/d/)                        #=> false
-["a", "a", "1"].my_any?(String)                      #=> true
-[nil, nil, false].my_any?                            #=> false
-[].my_any?                                           #=> false
+%w{orange banane apple}.my_any? { |word| word.length >= 3 }  #=> true
+%w{orange banane apple}.my_any? { |word| word.length >= 10 } #=> false
+%w{orange banane apple}.my_any?(/d/)                         #=> false
+["a", "a", "1"].my_any?(String)  #=> true
+[nil, nil, false].my_any?        #=> false
+[].my_any?                       #=> false
 
 #my_all
-%w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
-%w[ant bear cat].my_all? { |word| word.length >= 6 } #=> false
-%w[ant bear cat].my_all?(/t/)                        #=> false
-["a", "a", 1].my_all?(String)                        #=> false
-[nil, nil, false].my_all?                            #=> false
-[].my_all?                                           #=> true
+%w{orange banane apple}.my_all? { |word| word.length >= 3 } #=> true
+%w{orange banane apple}.my_all? { |word| word.length == 6 } #=> false
+%w{orange banane apple}.my_all?(/t/)                        #=> false
+["a", "a", 1].my_all?(String) #=> false
+[nil, nil, false].my_all?     #=> false
+[].my_all?                    #=> true
 
 #my_none
-%w{ant bear cat}.my_none? { |word| word.length == 5 } #=> true
-%w{ant bear cat}.my_none? { |word| word.length >= 4 } #=> false
-%w{ant bear cat}.my_none?(/d/)                        #=> true
-[1, 314, 4.2].my_none?(Float)                         #=> false
-[].my_none?                                           #=> true
-[nil].my_none?                                        #=> true
-[nil, false].my_none?                                 #=> true
-[nil, false, true].my_none?                           #=> false
+%w{orange banane apple}.my_none? { |word| word.length == 5 } #=> false
+%w{orange banane apple}.my_none? { |word| word.length <= 4 } #=> true
+%w{orange banane apple}.my_none?(/d/)                        #=> true
+[1, 314, 4.2].my_none?(Float)   #=> false
+[].my_none?                     #=> true
+[nil].my_none?                  #=> true
+[nil, false].my_none?           #=> true
+[nil, false, true].my_none?     #=> false
