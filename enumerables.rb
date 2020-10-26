@@ -207,7 +207,7 @@ module Enumerable
 
     #no argument given
     elsif arg == nil
-     self.length
+     self.size
     
     #argument given
     else
