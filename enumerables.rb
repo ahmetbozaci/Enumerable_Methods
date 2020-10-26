@@ -1,7 +1,7 @@
 module Enumerable
   
   #my_each
-  def my_each(&block)
+  def my_each()
     if block_given?
       for i in self do
         yield i
@@ -12,10 +12,14 @@ module Enumerable
   end
 
   #my_each_with_index
-  def my_each_with_index(&block)
+  def my_each_with_index()
     if block_given?
       for i in self do
-        yield i, self.index(i)
+        if self.class == Range
+          yield i, self.to_a.index(i)
+        else
+          yield i, self.to_a.index(i)
+        end
       end
     else
       to_enum(:my_each_with_index)  
