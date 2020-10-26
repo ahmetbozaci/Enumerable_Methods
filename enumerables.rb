@@ -162,14 +162,14 @@ module Enumerable
       true
 
     #if all element is nil or false  or array is empty 
-    elsif self.length >= 0 && arg == nil
+    elsif self.size >= 0 && arg == nil
         num = 0
         self.my_each do |i|
           if i == nil || i == false
             num += 1
           end
         end
-        unless num == self.length
+        unless num == self.size
           return false
         end
         true
