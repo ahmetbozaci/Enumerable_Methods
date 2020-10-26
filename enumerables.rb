@@ -65,18 +65,18 @@ module Enumerable
       false
 
     #if array empty
-    elsif self.length == 0
+    elsif self.size == 0
       return false
 
     #if all elements are nil or false  
-    elsif self.length > 0 && arg == nil
+    elsif self.size > 0 && arg == nil
       nil_count = 0
       for i in self
         if i == nil || i == false
           nil_count += 1
         end
       end
-      if nil_count == self.length
+      if nil_count == self.size
         return false
       else
         return true
