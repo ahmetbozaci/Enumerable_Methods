@@ -114,7 +114,7 @@ module Enumerable
       true
 
     #if array empty
-    elsif self.length == 0
+    elsif self.size == 0
       return true
 
     #if one element is nil or false  
@@ -125,6 +125,15 @@ module Enumerable
     elsif arg.class == Class
       self.each do |i|
         unless i.is_a? (arg)
+          return false
+        end
+      end
+      true
+    
+    #if no block given
+    elsif arg == nil
+      self.each do |i|
+        if i == false || i == nil
           return false
         end
       end
