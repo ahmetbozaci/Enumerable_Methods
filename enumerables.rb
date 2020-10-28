@@ -1,8 +1,9 @@
 module Enumerable
+  
   # my_each
   def my_each()
     if block_given?
-      each do |i|
+      for i in self do
         yield i
       end
     else
@@ -13,7 +14,7 @@ module Enumerable
   # my_each_with_index
   def my_each_with_index()
     if block_given?
-      each do |i|
+      for i in self do
         if self.class == Range
           yield i, to_a.index(i)
         else
@@ -43,38 +44,48 @@ module Enumerable
     if block_given?
       arr = []
       my_each do |i|
-        arr << i if yield(i)
+        if yield(i)
+          arr << i
+        end
       end
       arr
     else
       to_enum(:my_select)
     end
   end
-
   # my_any
   def my_any?(arg = nil)
     if block_given?
       my_each do |i|
-        return true if yield(i)
+        if yield(i)
+          true
+        end
       end
       false
 
     # if array empty
-    elsif size == 0
+    elsif size.zero?
       false
 
     # if all elements are nil or false
-    elsif size > 0 && arg.nil?
+    elsif size.positive? && arg.nil?
       nil_count = 0
-      each do |i|
-        nil_count += 1 if i.nil? || i == false
+      my_each do |i|
+        if i.nil? || i == false
+          nil_count += 1
+        end
       end
-      !(nil_count == size)
-
+      if nil_count == size
+        false
+      else
+        true
+      end
     # if class
     elsif arg.class == Class
       my_each do |i|
-        return true if i.is_a?(arg)
+        if i.is_a?(arg)
+          true
+        end
       end
       false
 
@@ -82,39 +93,46 @@ module Enumerable
     elsif arg.class == Regexp
       my_each do |i|
         index = i =~ arg
-        return true if index.class == Integer
+        if index.class == Integer
+          true
+        end
       end
       false
     end
   end
-
+  
   # my_all
   def my_all?(arg = nil)
     if block_given?
       my_each do |i|
-        return false unless yield(i)
+        unless yield(i)
+          false
+        end
       end
       true
 
     # if array empty
-    elsif size == 0
+    elsif self.size.zero?
       true
 
-    # if one element is nil or false
+    #if one element is nil or false  
     elsif include?(nil) || include?(false)
       false
 
     # if class
     elsif arg.class == Class
       my_each do |i|
-        return false unless i.is_a?(arg)
+        unless i.is_a?(arg)
+          false
+        end
       end
       true
-
     # if no block given
     elsif arg.nil?
       my_each do |i|
-        return false if i == false || i.nil?
+        if i == false || i.nil?
+          false
+        end
       end
       true
 
@@ -122,7 +140,9 @@ module Enumerable
     elsif arg.class == Regexp
       my_each do |i|
         index = i =~ arg
-        return false unless index.class == Integer
+        unless index.class == Integer
+          false
+        end
       end
       true
     end
@@ -132,7 +152,9 @@ module Enumerable
   def my_none?(arg = nil)
     if block_given?
       my_each do |i|
-        return false if yield(i)
+        if yield(i)
+          false
+        end
       end
       true
 
@@ -140,16 +162,21 @@ module Enumerable
     elsif size >= 0 && arg.nil?
       num = 0
       my_each do |i|
-        num += 1 if i.nil? || i == false
+        if i.nil? || i == false
+          num += 1
+        end
       end
-      return false unless num == size
-
+      unless num == size
+        false
+      end
       true
 
     # if class
     elsif arg.class == Class
       my_each do |i|
-        return false if i.is_a?(arg)
+        if i.is_a?(arg)
+          false
+        end
       end
       true
 
@@ -157,29 +184,34 @@ module Enumerable
     elsif arg.class == Regexp
       my_each do |i|
         index = i =~ arg
-        return false if index.class == Integer
+        if index.class == Integer
+          false
+        end
       end
       true
     end
-  end
-
+  end 
+  
   def my_count(arg = nil)
     if block_given?
       num = 0
       my_each do |i|
-        num += 1 if yield(i)
+        if yield(i)
+          num += 1
+        end
       end
       num
 
-    # no argument given
+    #no argument given
     elsif arg.nil?
       size
-
     # argument given
     else
       num = 0
-      each do |i|
-        num += 1 if i == arg
+      my_each do |n|
+        if n == arg
+          num += 1
+        end
       end
       num
     end
@@ -187,90 +219,90 @@ module Enumerable
 
   # my_inject
   def my_inject(num = nil, arg = nil)
+    
     if block_given?
 
       # if no number
       if num.nil?
-        i = 0
-        result = to_a[i]
-        while i < size - 1
-          result = yield(result, to_a[i + 1])
-          i += 1
+        start = 0
+        result = to_a[start]
+        while start < size - 1
+          result = yield(result, to_a[start + 1])
+          start += 1
         end
 
       # if number given
       else
-        i = 0
         result = num
-        while i < size
-          result = yield(result, to_a[i])
-          i += 1
+        start = 0
+        while start < size
+          result = yield(result, to_a[start])
+          start += 1
         end
       end
       result
-
     elsif num.class == Symbol
       sum_sub = 0
       product_div = 1
       if num == :+
-        each do |i|
-          sum_sub += i
+        my_each do |n|
+          sum_sub += n
         end
         sum_sub
 
       elsif num == :-
-        each do |i|
-          sum_sub -= i
+        my_each do |n|
+          sum_sub -= n
         end
         sum_sub
 
       elsif num == :*
-        each do |i|
-          product_div *= i
+        my_each do |n|
+          product_div *= n
         end
         product_div
 
       elsif num == :/
-        each do |i|
-          product_div /= i
+        my_each do |n|
+          product_div /= n
         end
         product_div
       end
-
     elsif arg.class == Symbol
       sum_sub = 0
       product_div = 1
       if arg == :+
-        each do |i|
-          sum_sub += i
+        my_each do |n|
+          sum_sub += n
         end
         sum_sub + num
 
       elsif arg == :-
-        each do |i|
-          sum_sub -= i
+        my_each do |n|
+          sum_sub -= n
         end
         sum_sub + num
 
       elsif arg == :*
-        each do |i|
-          product_div *= i
+        my_each do |n|
+          product_div *= n
         end
         product_div * num
 
       elsif arg == :/
-        each do |i|
-          product_div /= i
+        my_each do |n|
+          product_div /= n
         end
         product_div / num
       end
 
     elsif num.class == Integer
-      raise TypeError, "#{num} is not a symbol nor a string"
+      raise TypeError.new "#{num} is not a symbol nor a string"
     else
-      raise LocalJumpError, 'no block given'
+      raise LocalJumpError.new 'no block given'
     end
   end
+
 end
 
 # EXAMPLES
@@ -303,11 +335,17 @@ arr.my_select { |num| num.even? } #=> [32, 10, 4]
 %w[orange banane apple].my_any? { |word| word.length >= 3 } #=> true
 %w[orange banane apple].my_any? { |word| word.length >= 10 } #=> false
 %w[orange banane apple].my_any?(/d/) #=> false
-%w[a a 1].my_any?(String) #=> true
+[3, 'apple', 1].my_any?(String) #=> true
 [nil, nil, false].my_any? #=> false
 [].my_any? #=> false
 
 # my_all
+%w[orange banana apple].my_all? { |word| word.length >= 3 } #=> true
+%w[orange banana apple].my_all? { |word| word.length >= 4 } #=> false
+%w[orange banana apple].my_all?(/t/) #=> false
+[1, 2i, 3.14].my_all?(Numeric) #=> true
+[nil, true, 99].my_all? #=> false
+[].my_all? #=> true
 
 # my_none
 %w[orange banane apple].my_none? { |word| word.length == 5 } #=> false
@@ -321,9 +359,8 @@ arr.my_select { |num| num.even? } #=> [32, 10, 4]
 
 # my_count
 ary = [4, 5, 2, 2, 6, 7, 2, 2, 3]
-ary.my_count #=> 9
-ary.my_count(2) #=> 4
-ary.my_count { |x| x.even? } #=> 3
+ary.my_count
+ary.my_count(2)
 
 # my_inject
 (5..10).my_inject(5) { |sum, n| sum + n }
