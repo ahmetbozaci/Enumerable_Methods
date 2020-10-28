@@ -106,7 +106,7 @@ module Enumerable
   #my_all
   def my_all?(arg = nil)
     if block_given?
-      self.each do |i|
+      self.my_each do |i|
         unless yield(i)
           return false
         end
@@ -123,7 +123,7 @@ module Enumerable
 
     #if class
     elsif arg.class == Class
-      self.each do |i|
+      self.my_each do |i|
         unless i.is_a? (arg)
           return false
         end
@@ -132,7 +132,7 @@ module Enumerable
     
     #if no block given
     elsif arg == nil
-      self.each do |i|
+      self.my_each do |i|
         if i == false || i == nil
           return false
         end
@@ -141,7 +141,7 @@ module Enumerable
 
     #Regexp
     elsif arg.class == Regexp
-      self.each do |i|
+      self.my_each do |i|
         index = i =~ arg
         unless index.class == Integer
           return false
@@ -154,7 +154,7 @@ module Enumerable
   #my_none
   def my_none?(arg = nil)
     if block_given?
-      self.each do |i|
+      self.my_each do |i|
         if yield(i)
           return false
         end
@@ -198,7 +198,7 @@ module Enumerable
   def my_count(arg = nil)
     if block_given?
       num = 0
-      self.each do |i|
+      self.my_each do |i|
         if yield(i)
           num += 1
         end
@@ -222,7 +222,92 @@ module Enumerable
 
   end #def
 
+  #my_inject
+  def my_inject (num = nil , arg = nil )
+    
+    if block_given?
+      if num == nil 
+        i = 0
+        result = self.to_a[i]
+        while i<self.size-1
+          result = yield(result,self.to_a[i+1]) 
+          i += 1
+        end
+      else
+        i = 0
+        result = num
+        while i<self.size
+          result = yield(result,self.to_a[i])
+          i += 1
+        end
+      end
+      result
+    
+    elsif num.class == Symbol 
+      sum_sub = 0
+      product_div = 1
+      if num == :+
+        for i in self
+          sum_sub += i
+        end
+        return sum_sub
+
+      elsif num == :-
+        for i in self
+          sum_sub -= i
+        end
+        return sum_sub
+
+      elsif num == :*
+        for i in self
+          product_div *= i
+        end
+        return product_div
+
+      elsif num == :/
+        for i in self
+          product_div /= i
+        end
+        return product_div
+    end
+    
+    elsif arg.class == Symbol 
+      sum_sub = 0
+      product_div = 1
+      if arg == :+
+        for i in self
+          sum_sub += i
+        end
+      return sum_sub+num
+
+    elsif arg == :-
+      for i in self
+        sum_sub -= i
+      end
+      return sum_sub+num
+
+    elsif arg == :*
+      for i in self
+        product_div *= i
+      end
+      return product_div*num
+
+    elsif arg == :/
+      for i in self
+        product_div /= i
+      end
+      return product_div/num
+    end
+
+    elsif num.class == Integer
+      raise TypeError.new "#{num} is not a symbol nor a string"    
+    else
+      raise LocalJumpError.new "no block given"    
+    end
+  end
 end
+
+
 
 
 
@@ -261,12 +346,7 @@ arr.my_select { |num|  num.even?  }   #=> [32, 10, 4]
 [].my_any?                       #=> false
 
 #my_all
-%w{orange banane apple}.my_all? { |word| word.length >= 3 } #=> true
-%w{orange banane apple}.my_all? { |word| word.length == 6 } #=> false
-%w{orange banane apple}.my_all?(/t/)                        #=> false
-["a", "a", 1].my_all?(String) #=> false
-[nil, nil, false].my_all?     #=> false
-[].my_all?                    #=> true
+
 
 #my_none
 %w{orange banane apple}.my_none? { |word| word.length == 5 } #=> false
@@ -283,3 +363,9 @@ ary = [4, 5, 2, 2, 6, 7, 2, 2, 3]
 ary.my_count                  #=> 9
 ary.my_count(2)               #=> 4
 ary.my_count { |x| x%2 == 0 } #=> 3
+
+#my_inject
+(5..10).my_inject(5){ |sum, n| sum + n }           
+(5..50).my_inject { |prod, n| prod * n }
+array = [1,2,3,4,8]
+array.my_inject(:+)
