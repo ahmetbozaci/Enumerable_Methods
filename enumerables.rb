@@ -101,7 +101,7 @@ module Enumerable
       end
       false
     end
-  end #def
+  end 
   
   #my_all
   def my_all?(arg = nil)
@@ -149,7 +149,7 @@ module Enumerable
       end
       true
     end
-  end #def
+  end 
 
   #my_none
   def my_none?(arg = nil)
@@ -193,7 +193,7 @@ module Enumerable
       end
       true
     end
-  end #def
+  end 
   
   def my_count(arg = nil)
     if block_given?
@@ -220,12 +220,14 @@ module Enumerable
       num 
     end
 
-  end #def
+  end 
 
   #my_inject
   def my_inject (num = nil , arg = nil )
     
     if block_given?
+
+      #if no number
       if num == nil 
         i = 0
         result = self.to_a[i]
@@ -233,6 +235,8 @@ module Enumerable
           result = yield(result,self.to_a[i+1]) 
           i += 1
         end
+
+      #if number given
       else
         i = 0
         result = num
@@ -310,7 +314,6 @@ end
 
 
 
-
 #EXAMPLES
 arr = [32,10,21,4,5]
 
@@ -369,3 +372,9 @@ ary.my_count { |x| x%2 == 0 } #=> 3
 (5..50).my_inject { |prod, n| prod * n }
 array = [1,2,3,4,8]
 array.my_inject(:+)
+
+def multiply_els(arr)
+  arr.my_inject(:*)
+end
+
+multiply_els([1,3,7,9])
