@@ -12,41 +12,35 @@ module Enumerable
 
   # my_each_with_index
   def my_each_with_index()
-    if block_given?
-      my_each do |i|
-        yield i, to_a.index(i)
-      end
-    else
-      to_enum(:my_each_with_index)
+    return to_enum(:my_each_with_index) unless block_given?
+
+    my_each do |i|
+      yield i, to_a.index(i)
     end
   end
 
   # my_map
   def my_map()
-    if block_given?
-      arr = []
-      my_each do |i|
-        arr << yield(i)
-      end
-      arr
-    else
-      to_enum(:my_map)
+    return to_enum(:my_map) unless block_given?
+
+    arr = []
+    my_each do |i|
+      arr << yield(i)
     end
+    arr
   end
 
   # my_select
   def my_select()
-    if block_given?
-      arr = []
-      my_each do |i|
-        if yield(i)
-          arr << i if yield(i)
-        end
+    return to_enum(:my_select) unless block_given?
+
+    arr = []
+    my_each do |i|
+      if yield(i)
+        arr << i if yield(i)
       end
-      arr
-    else
-      to_enum(:my_select)
     end
+    arr
   end
 
   # my_any
