@@ -1,5 +1,4 @@
 module Enumerable
-  
   # my_each
   def my_each()
     if block_given?
@@ -14,12 +13,8 @@ module Enumerable
   # my_each_with_index
   def my_each_with_index()
     if block_given?
-      for i in self do
-        if self.class == Range
-          yield i, to_a.index(i)
-        else
-          yield i, to_a.index(i)
-        end
+      my_each do |i|
+        yield i, to_a.index(i)
       end
     else
       to_enum(:my_each_with_index)
@@ -45,7 +40,7 @@ module Enumerable
       arr = []
       my_each do |i|
         if yield(i)
-          arr << i
+          arr << i if yield(i)
         end
       end
       arr
@@ -53,6 +48,7 @@ module Enumerable
       to_enum(:my_select)
     end
   end
+
   # my_any
   def my_any?(arg = nil)
     if block_given?
@@ -100,7 +96,7 @@ module Enumerable
       false
     end
   end
-  
+
   # my_all
   def my_all?(arg = nil)
     if block_given?
@@ -112,10 +108,10 @@ module Enumerable
       true
 
     # if array empty
-    elsif self.size.zero?
+    elsif size.zero?
       true
 
-    #if one element is nil or false  
+    # if one element is nil or false
     elsif include?(nil) || include?(false)
       false
 
@@ -190,8 +186,9 @@ module Enumerable
       end
       true
     end
-  end 
-  
+  end
+
+  # my_count
   def my_count(arg = nil)
     if block_given?
       num = 0
@@ -202,7 +199,7 @@ module Enumerable
       end
       num
 
-    #no argument given
+    # no argument given
     elsif arg.nil?
       size
     # argument given
@@ -219,7 +216,6 @@ module Enumerable
 
   # my_inject
   def my_inject(num = nil, arg = nil)
-    
     if block_given?
 
       # if no number
@@ -297,12 +293,11 @@ module Enumerable
       end
 
     elsif num.class == Integer
-      raise TypeError.new "#{num} is not a symbol nor a string"
+      raise TypeError "#{num} is not a symbol nor a string"
     else
-      raise LocalJumpError.new 'no block given'
+      raise LocalJumpError 'no block given'
     end
   end
-
 end
 
 # EXAMPLES
@@ -329,7 +324,7 @@ my_proc = proc { |i| i * 2 }
 arr.my_map(&my_proc)
 
 # my_select
-arr.my_select { |num| num.even? } #=> [32, 10, 4]
+arr.my_select(&:even?) #=> [32, 10, 4]
 
 # my_any
 %w[orange banane apple].my_any? { |word| word.length >= 3 } #=> true
