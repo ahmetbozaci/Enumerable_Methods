@@ -183,82 +183,39 @@ module Enumerable
   end
 
   # my_inject
+
   def my_inject(num = nil, arg = nil)
     if block_given?
 
       # if no number
       if num.nil?
-        start = 0
-        result = to_a[start]
-        while start < size - 1
-          result = yield(result, to_a[start + 1])
-          start += 1
+        result = to_a[0]
+        (size - 1).times do |i|
+          result = yield(result, to_a[i + 1])
         end
 
       # if number given
       else
         result = num
-        start = 0
-        while start < size
-          result = yield(result, to_a[start])
-          start += 1
+        size.times do |i|
+          result = yield(result, to_a[i])
         end
       end
       result
+
     elsif num.class == Symbol
-      sum_sub = 0
-      product_div = 1
-      if num == :+
-        my_each do |n|
-          sum_sub += n
-        end
-        sum_sub
-
-      elsif num == :-
-        my_each do |n|
-          sum_sub -= n
-        end
-        sum_sub
-
-      elsif num == :*
-        my_each do |n|
-          product_div *= n
-        end
-        product_div
-
-      elsif num == :/
-        my_each do |n|
-          product_div /= n
-        end
-        product_div
+      result = to_a[0]
+      (size - 1).times do |i|
+        result = result.send(num, to_a[i + 1])
       end
+      result
+
     elsif arg.class == Symbol
-      sum_sub = 0
-      product_div = 1
-      if arg == :+
-        my_each do |n|
-          sum_sub += n
-        end
-        sum_sub + num
-
-      elsif arg == :-
-        my_each do |n|
-          sum_sub -= n
-        end
-        sum_sub + num
-
-      elsif arg == :*
-        my_each do |n|
-          product_div *= n
-        end
-        product_div * num
-
-      elsif arg == :/
-        my_each do |n|
-          product_div /= n
-        end
-        product_div / num
+      result = num
+      size.times do |i|
+        result = result.send(arg, to_a[i])
       end
+      result
 
     elsif num.class == Integer
       raise TypeError "#{num} is not a symbol nor a string"
@@ -275,66 +232,3 @@ def multiply_els(arr)
 end
 
 multiply_els([1, 3, 7, 9])
-
-# EXAMPLES
-arr = [32, 10, 21, 4, 5]
-
-# my_each
-arr.my_each do |n|
-  n += 1
-  print "#{n}-"
-end
-
-# my_each_with_index
-arr.my_each_with_index do |i, n|
-  print "#{i}:#{n} - "
-end
-
-# my_map
-arr.my_map do |i|
-  i += 1
-  print "#{i} "
-end
-
-my_proc = proc { |i| i * 2 }
-arr.my_map(&my_proc)
-
-# my_select
-arr.my_select(&:even?) #=> [32, 10, 4]
-
-# my_any
-%w[orange banane apple].my_any? { |word| word.length >= 3 } #=> true
-%w[orange banane apple].my_any? { |word| word.length >= 10 } #=> false
-%w[orange banane apple].my_any?(/d/) #=> false
-[3, 'apple', 1].my_any?(String) #=> true
-[nil, nil, false].my_any? #=> false
-[].my_any? #=> false
-
-# my_all
-%w[orange banana apple].my_all? { |word| word.length >= 3 } #=> true
-%w[orange banana apple].my_all? { |word| word.length >= 4 } #=> false
-%w[orange banana apple].my_all?(/t/) #=> false
-[1, 2i, 3.14].my_all?(Numeric) #=> true
-[nil, true, 99].my_all? #=> false
-[].my_all? #=> true
-
-# my_none
-%w[orange banane apple].my_none? { |word| word.length == 5 } #=> false
-%w[orange banane apple].my_none? { |word| word.length <= 4 } #=> true
-%w[orange banane apple].my_none?(/d/) #=> true
-[1, 314, 4.2].my_none?(Float) #=> false
-[].my_none? #=> true
-[nil].my_none? #=> true
-[nil, false].my_none? #=> true
-[nil, false, true].my_none? #=> false
-
-# my_count
-ary = [4, 5, 2, 2, 6, 7, 2, 2, 3]
-ary.my_count
-ary.my_count(2)
-
-# my_inject
-(5..10).my_inject(5) { |sum, n| sum + n }
-(5..50).my_inject { |prod, n| prod * n }
-array = [1, 2, 3, 4, 8]
-array.my_inject(:+)
