@@ -25,30 +25,30 @@ arr.my_map(&my_proc)
 arr.my_select(&:even?) #=> [32, 10, 4]
 
 # my_any
-%w[orange banane apple].my_any? { |word| word.length >= 3 } #=> true
-%w[orange banane apple].my_any? { |word| word.length >= 10 } #=> false
-%w[orange banane apple].my_any?(/d/) #=> false
-[3, 'apple', 1].my_any?(String) #=> true
-[nil, nil, false].my_any? #=> false
-[].my_any? #=> false
+%w[orange banane apple].my_any? { |word| word.length >= 3 }
+%w[orange banane apple].my_any? { |word| word.length >= 10 }
+%w[orange banane apple].my_any?(/d/)
+[3, 'apple', 1].my_any?(String)
+[nil, nil, false].my_any?
+[].my_any?
 
 # my_all
-%w[orange banana apple].my_all? { |word| word.length >= 3 } #=> true
-%w[orange banana apple].my_all? { |word| word.length >= 4 } #=> false
-%w[orange banana apple].my_all?(/t/) #=> false
-[1, 2i, 3.14].my_all?(Numeric) #=> true
-[nil, true, 99].my_all? #=> false
-[].my_all? #=> true
+%w[orange banana apple].my_all? { |word| word.length >= 3 }
+%w[orange banana apple].my_all? { |word| word.length >= 4 }
+%w[orange banana apple].my_all?(/t/)
+[1, 2i, 3.14].my_all?(Numeric)
+[nil, true, 99].my_all?
+[].my_all?
 
 # my_none
-%w[orange banane apple].my_none? { |word| word.length == 5 } #=> false
-%w[orange banane apple].my_none? { |word| word.length <= 4 } #=> true
-%w[orange banane apple].my_none?(/d/) #=> true
-[1, 314, 4.2].my_none?(Float) #=> false
-[].my_none? #=> true
-[nil].my_none? #=> true
-[nil, false].my_none? #=> true
-[nil, false, true].my_none? #=> false
+%w[orange banane apple].my_none? { |word| word.length == 5 }
+%w[orange banane apple].my_none? { |word| word.length <= 4 }
+%w[orange banane apple].my_none?(/d/)
+[1, 314, 4.2].my_none?(Float)
+[].my_none?
+[nil].my_none?
+[nil, false].my_none?
+[nil, false, true].my_none?
 
 # my_count
 ary = [4, 5, 2, 2, 6, 7, 2, 2, 3]
