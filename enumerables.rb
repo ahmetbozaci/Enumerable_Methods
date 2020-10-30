@@ -82,6 +82,8 @@ module Enumerable
     end
   end
 
+  # my_all
+
   def my_all?(arg = nil)
     if block_given?
       each do |i|
@@ -99,21 +101,21 @@ module Enumerable
 
     # if class
     elsif arg.class == Class
-      each do |i|
+      my_each do |i|
         return false unless i.is_a?(arg)
       end
       true
 
     # if no block given
     elsif arg.nil?
-      each do |i|
+      my_each do |i|
         return false if i == false || i.nil?
       end
       true
 
     # Regexp
     elsif arg.class == Regexp
-      each do |i|
+      my_each do |i|
         index = i =~ arg
         return false unless index.class == Integer
       end
@@ -126,9 +128,7 @@ module Enumerable
   def my_none?(arg = nil)
     if block_given?
       my_each do |i|
-        if yield(i)
-          false
-        end
+        return false if yield(i)
       end
       true
 
@@ -136,21 +136,16 @@ module Enumerable
     elsif size >= 0 && arg.nil?
       num = 0
       my_each do |i|
-        if i.nil? || i == false
-          num += 1
-        end
+        num += 1 if i.nil? || i == false
       end
-      unless num == size
-        false
-      end
+      return false unless num == size
+
       true
 
     # if class
     elsif arg.class == Class
       my_each do |i|
-        if i.is_a?(arg)
-          false
-        end
+        return false if i.is_a?(arg)
       end
       true
 
@@ -158,15 +153,14 @@ module Enumerable
     elsif arg.class == Regexp
       my_each do |i|
         index = i =~ arg
-        if index.class == Integer
-          false
-        end
+        return false if index.class == Integer
       end
       true
     end
   end
 
   # my_count
+  
   def my_count(arg = nil)
     if block_given?
       num = 0
