@@ -82,13 +82,10 @@ module Enumerable
     end
   end
 
-  # my_all
   def my_all?(arg = nil)
     if block_given?
-      my_each do |i|
-        unless yield(i)
-          false
-        end
+      each do |i|
+        return false unless yield(i)
       end
       true
 
@@ -102,34 +99,30 @@ module Enumerable
 
     # if class
     elsif arg.class == Class
-      my_each do |i|
-        unless i.is_a?(arg)
-          false
-        end
+      each do |i|
+        return false unless i.is_a?(arg)
       end
       true
+
     # if no block given
     elsif arg.nil?
-      my_each do |i|
-        if i == false || i.nil?
-          false
-        end
+      each do |i|
+        return false if i == false || i.nil?
       end
       true
 
     # Regexp
     elsif arg.class == Regexp
-      my_each do |i|
+      each do |i|
         index = i =~ arg
-        unless index.class == Integer
-          false
-        end
+        return false unless index.class == Integer
       end
       true
     end
   end
 
   # my_none
+
   def my_none?(arg = nil)
     if block_given?
       my_each do |i|
