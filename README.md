@@ -2,6 +2,8 @@
 
 # Enumerable-Methods
 
+![screenshot](./screenshot.png)
+
 I rebuild Enumerable methods on the Ruby in this project. 
 
 Functions:
@@ -22,6 +24,21 @@ Functions:
 
 - Ruby
 
+## Getting Started
+
+To get a local copy up and running follow these steps:
+
+### Prerequisites
+
+- Ruby installed on local machine
+- Rspec installed on local machine
+- A browser (for usage or repl.it)
+
+### Usage
+
+- Fork/Clone this project to your local machine
+- Run ```rspec``` in the terminal of your root directory to run the described tests
+
 ## Author
 
 👤 **Ahmet Bozaci**
@@ -36,6 +53,16 @@ Functions:
 Contributions, issues and feature requests are welcome!
 
 Feel free to check the [issues page](https://github.com/ahmetbozaci/Enumerable-Methods/issues)
+
+Start by:
+
+- Forking the project
+- Cloning the project to your local machine
+- `cd` into the project directory
+- Run `git checkout -b your-branch-name`
+- Make your contributions
+- Push your branch up to your forked repository
+- Open a Pull Request with a detailed description to the development(or master if not available) branch of the original project for a review
 
 ## Show your support
 
