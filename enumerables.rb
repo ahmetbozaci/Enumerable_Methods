@@ -232,3 +232,8 @@ def multiply_els(arr)
 end
 
 multiply_els([1, 3, 7, 9])
+
+[5,5,5].all?(5)
+[5,5,5].my_all?(5)
+["a","a","a"].all?("a")
+["a","a","a"].my_all?("a")
