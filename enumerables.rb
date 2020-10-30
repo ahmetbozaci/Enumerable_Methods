@@ -21,14 +21,23 @@ module Enumerable
   end
 
   # my_map
-  def my_map()
-    return to_enum(:my_map) unless block_given?
 
-    arr = []
-    my_each do |i|
-      arr << yield(i)
+  def my_map(proc = nil)
+    if block_given? && proc.nil?
+      arr = []
+      my_each do |i|
+        arr << yield(i)
+      end
+      arr
+    elsif !proc.nil?
+      arr = []
+      my_each do |i|
+        arr << proc.call(i)
+      end
+      arr
+    else
+      to_enum(:my_map)
     end
-    arr
   end
 
   # my_select
