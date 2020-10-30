@@ -18,6 +18,7 @@ module Enumerable
     my_each do |i|
       yield i, to_a.index(i)
     end
+    self
   end
 
   # my_map
@@ -82,7 +83,7 @@ module Enumerable
       false
 
     # if string or number
-    elsif !arg.nil?
+    elsif !arg.nil? && arg.class != Regexp
       my_each do |i|
         return true if i == arg
       end
@@ -122,7 +123,7 @@ module Enumerable
       end
       true
     # if argument is number or string
-    elsif !arg.nil?
+    elsif !arg.nil? && arg.class != Regexp
       my_each do |i|
         return false unless arg == i
       end
@@ -172,7 +173,7 @@ module Enumerable
       true
 
     # if number or string
-    elsif !arg.nil?
+    elsif !arg.nil? && arg.class != Regexp
       my_each do |i|
         return false if i == arg
       end
