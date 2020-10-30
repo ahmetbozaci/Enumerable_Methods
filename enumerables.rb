@@ -105,6 +105,12 @@ module Enumerable
         return false unless i.is_a?(arg)
       end
       true
+    # if argument is number or string
+    elsif !arg.nil?
+      my_each do |i|
+        return false unless arg == i
+      end
+      true
 
     # if no block given
     elsif arg.nil?
@@ -232,8 +238,3 @@ def multiply_els(arr)
 end
 
 multiply_els([1, 3, 7, 9])
-
-[5,5,5].all?(5)
-[5,5,5].my_all?(5)
-["a","a","a"].all?("a")
-["a","a","a"].my_all?("a")
