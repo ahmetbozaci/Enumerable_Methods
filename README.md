@@ -5,15 +5,15 @@
 I rebuild Enumerable methods on the Ruby in this project. 
 
 Functions:
-**my_each**
-**my_each_with_index**
-**my_map**
-**my_select**
-**my_any?**
-**my_all?**
-**my_none?**
-**my_count**
-**my_inject**
+**my_each
+**my_each_with_index
+**my_map
+**my_select
+**my_any?
+**my_all?
+**my_none?
+**my_count
+**my_inject
 
 ## Live Code
 [![Run on Repl.it](https://repl.it/badge/github/acushlakoncept/Enumerable)](https://repl.it/github/ahmetbozaci/Enumerable_Methods)
