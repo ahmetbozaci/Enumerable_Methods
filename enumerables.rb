@@ -6,7 +6,7 @@ module Enumerable
     return to_enum(:my_each) unless block_given?
 
     size.times do |i|
-      yield self[i]
+      yield to_a[i]
     end
     self
   end
