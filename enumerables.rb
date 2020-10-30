@@ -72,6 +72,13 @@ module Enumerable
       end
       false
 
+    # if string or number
+    elsif !arg.nil?
+      my_each do |i|
+        return true if i == arg
+      end
+      false
+
     # Regexp
     elsif arg.class == Regexp
       my_each do |i|
