@@ -16,7 +16,7 @@ Functions:
 **my_inject**
 
 ## Live Code
-[![Run on Repl.it](https://repl.it/badge/github/acushlakoncept/Enumerable)](https://repl.it/github/ahmetbozaci/Enumerable-1)
+[![Run on Repl.it](https://repl.it/badge/github/acushlakoncept/Enumerable)](https://repl.it/github/ahmetbozaci/Enumerable_Methods)
 
 ## Built With
 
