@@ -160,14 +160,12 @@ module Enumerable
   end
 
   # my_count
-  
+
   def my_count(arg = nil)
     if block_given?
       num = 0
-      my_each do |i|
-        if yield(i)
-          num += 1
-        end
+      each do |i|
+        num += 1 if yield(i)
       end
       num
 
@@ -177,10 +175,8 @@ module Enumerable
     # argument given
     else
       num = 0
-      my_each do |n|
-        if n == arg
-          num += 1
-        end
+      each do |n|
+        num += 1 if n == arg
       end
       num
     end
