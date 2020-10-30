@@ -143,7 +143,7 @@ module Enumerable
       true
 
     # if class
-    elsif arg.class == Class
+    elsif arg.class == Class || arg.class == Integer
       my_each do |i|
         return false if i.is_a?(arg)
       end
@@ -218,9 +218,9 @@ module Enumerable
       result
 
     elsif num.class == Integer
-      raise TypeError "#{num} is not a symbol nor a string"
+      raise TypeError, "#{num} is not a symbol nor a string"
     else
-      raise LocalJumpError 'no block given'
+      raise LocalJumpError, 'no block given'
     end
   end
 end
