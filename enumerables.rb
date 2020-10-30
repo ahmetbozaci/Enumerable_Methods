@@ -93,7 +93,7 @@ module Enumerable
 
   def my_all?(arg = nil)
     if block_given?
-      each do |i|
+      my_each do |i|
         return false unless yield(i)
       end
       true
@@ -156,9 +156,16 @@ module Enumerable
       true
 
     # if class
-    elsif arg.class == Class || arg.class == Integer
+    elsif arg.class == Class
       my_each do |i|
         return false if i.is_a?(arg)
+      end
+      true
+
+    # if number or string
+    elsif !arg.nil?
+      my_each do |i|
+        return false if i == arg
       end
       true
 
@@ -177,7 +184,7 @@ module Enumerable
   def my_count(arg = nil)
     if block_given?
       num = 0
-      each do |i|
+      my_each do |i|
         num += 1 if yield(i)
       end
       num
@@ -188,7 +195,7 @@ module Enumerable
     # argument given
     else
       num = 0
-      each do |n|
+      my_each do |n|
         num += 1 if n == arg
       end
       num
