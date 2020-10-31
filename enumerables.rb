@@ -15,8 +15,8 @@ module Enumerable
   def my_each_with_index()
     return to_enum(:my_each_with_index) unless block_given?
 
-    my_each do |i|
-      yield i, to_a.index(i)
+    size.times do |i|
+      yield(self[i], i)
     end
     self
   end
