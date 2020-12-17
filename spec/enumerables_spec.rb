@@ -1,4 +1,4 @@
-require_relative './enumerables'
+require_relative '../enumerables'
 
 describe Enumerable do
   arr = [32, 10, 21, 4, 5]
