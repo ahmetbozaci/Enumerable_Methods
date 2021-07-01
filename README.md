@@ -43,9 +43,9 @@ To get a local copy up and running follow these steps:
 
 👤 **Ahmet Bozaci**
 
-- Github: [@ahmetbozaci](https://github.com/ahmetbozaci)
-- Twitter: [@ahmtbozaci](https://twitter.com/ahmtbozaci)
-- LinkedIn: [Ahmet](https://www.linkedin.com/in/ahmetbozaci/)
+- Github: [ahmetbozaci](https://github.com/ahmetbozaci)
+- Twitter: [ahmtbozaci](https://twitter.com/ahmtbozaci)
+- LinkedIn: [ahmetbozaci](https://www.linkedin.com/in/ahmetbozaci/)
 
 
 ## 🤝 Contributing
